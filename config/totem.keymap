@@ -51,7 +51,7 @@
         };
 
         toggle_game_mode {
-            bindings = <&tog 5>;
+            bindings = <&tog 6>;
             key-positions = <20 31>;
             timeout-ms = <100>;
         };
