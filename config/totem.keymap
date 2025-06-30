@@ -92,11 +92,6 @@ ZMK_HOLD_TAP(mt_end, bindings = <&masked_end>, <&kp>; MT_CORE)
             bindings = <&tog 4>;
         };
 
-        home_row_enter {
-            bindings = <&kp ENTER>;
-            key-positions = <16 17 18>;
-        };
-
         toggle_game_mode {
             bindings = <&tog 6>;
             key-positions = <20 31>;
@@ -106,16 +101,6 @@ ZMK_HOLD_TAP(mt_end, bindings = <&masked_end>, <&kp>; MT_CORE)
         undo {
             bindings = <&kp LC(Z)>;
             key-positions = <22 21>;
-        };
-
-        copy {
-            bindings = <&kp LC(C)>;
-            key-positions = <22 23>;
-        };
-
-        paste {
-            bindings = <&kp LC(V)>;
-            key-positions = <23 24>;
         };
     };
 
