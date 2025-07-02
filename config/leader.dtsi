@@ -15,7 +15,6 @@
     };
 
 /* Ukrainian letters */
-ZMK_LEADER_SEQUENCE(uk_ie,  &uk_ie,     :)  // є/Є
 ZMK_LEADER_SEQUENCE(uk_yi,  &uk_yi,     S)  // ї/Ї
 ZMK_LEADER_SEQUENCE(uk_kh,  &uk_kh,     P)  // х/Х
 
