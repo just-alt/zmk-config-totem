@@ -29,13 +29,53 @@
 #define TVP1 4
 #define TVP2 5
 
-&mt {
-    quick-tap-ms = <100>;
-    global-quick-tap;
-    flavor = "tap-preferred";
-    tapping-term-ms = <200>;
-    require-prior-idle-ms = <100>;
-};
+#define XXX &none
+#define ___ &trans
+
+
+#define QUICK_TAP_MS 175
+
+/* Timeless homerow mods */
+// https://github.com/urob/zmk-config/tree/main#timeless-homerow-mods
+#define KEYS_L LT0 LT1 LT2 LT3 LT4 LM0 LM1 LM2 LM3 LM4 LB0 LB1 LB2 LB3 LB4  // left hand
+#define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4  // right hand
+#define THUMBS LH0 LH1 LH0 RH0 RH1 RH2                                      // thumbs
+
+
+
+#define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS)                                 \
+  ZMK_HOLD_TAP(NAME, bindings = <HOLD>, <TAP>; flavor = "balanced";            \
+               tapping-term-ms = <280>; quick-tap-ms = <QUICK_TAP_MS>;         \
+               require-prior-idle-ms = <150>; hold-trigger-on-release;         \
+               hold-trigger-key-positions = <TRIGGER_POS>;)
+
+MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS) // Left-hand HRMs.
+MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
+
+// Hack: Make HRM combos tap-only (cf, ZMK issue #544).
+#define ZMK_COMBO_8(NAME, TAP, POS, LAYERS, COMBO_MS, IDLE_MS, HOLD, SIDE)     \
+  MAKE_HRM(hm_combo_##NAME, &kp, TAP, SIDE THUMBS)                             \
+  ZMK_COMBO_6(NAME, &hm_combo_##NAME HOLD 0, POS, LAYERS, COMBO_MS, IDLE_MS)
+
+/* Combos, leader key sequences, mouse emulation */
+
+#include "combos.dtsi" // Must be sourced after HRM-combo hack.
+#include "leader.dtsi"
+#include "mouse.dtsi"
+
+/* Nav cluster */
+
+// Trigger tap-action on all interrupts.
+#define MT_CORE                                                                \
+  flavor = "tap-preferred";                                                    \
+  tapping-term-ms = <220>;                                                     \
+  quick-tap-ms = <220>;                                                        \
+  hold-trigger-key-positions = <0>;
+
+&mt { MT_CORE };
+
+ZMK_HOLD_TAP(mt_home, bindings = <&masked_home>, <&kp>; MT_CORE)
+ZMK_HOLD_TAP(mt_end, bindings = <&masked_end>, <&kp>; MT_CORE)
 
 / {
     combos {
@@ -119,9 +159,9 @@
 
             bindings = <
            &kp Q       &kp W       &kp E        &kp R        &kp T        &kp Y                       &kp U        &kp I        &kp O           &kp P
-           &mt LGUI A  &mt LALT S  &mt LCTRL D  &mt LSHFT F  &kp G        &kp H                       &mt RSHFT J  &mt RCTRL K  &mt LEFT_ALT L  &mt LEFT_GUI SEMICOLON
+           &hml LGUI A  &hml LALT S  &hml LCTRL D  &hml LSHFT F  &kp G        &kp H                       &hmr RSHFT J  &hmr RCTRL K  &hmr LEFT_ALT L  &hmr  LEFT_GUI SEMICOLON
 &kp GRAVE  &kp Z       &kp X       &kp C        &kp V        &kp B        &kp N                       &kp M        &kp COMMA    &kp DOT         &kp FSLH                &kp SINGLE_QUOTE
-                                   &kp DEL      &lt 1 TAB    &kp ENTER    &mt LC(LS(LEFT_ALT)) SPACE  &lt 2 ESC    &kp BSPC
+                                   &kp DEL      &lt 1 TAB    &kp ENTER    &hml LC(LS(LEFT_ALT)) SPACE  &lt 2 ESC    &kp BSPC
             >;
         };
 
