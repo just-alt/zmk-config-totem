@@ -57,11 +57,6 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
   MAKE_HRM(hm_combo_##NAME, &kp, TAP, SIDE THUMBS)                             \
   ZMK_COMBO_6(NAME, &hm_combo_##NAME HOLD 0, POS, LAYERS, COMBO_MS, IDLE_MS)
 
-/* Combos, leader key sequences, mouse emulation */
-
-#include "combos.dtsi" // Must be sourced after HRM-combo hack.
-#include "leader.dtsi"
-#include "mouse.dtsi"
 
 /* Nav cluster */
 
@@ -92,11 +87,6 @@ ZMK_HOLD_TAP(mt_end, bindings = <&masked_end>, <&kp>; MT_CORE)
             bindings = <&tog 4>;
         };
 
-        home_row_enter {
-            bindings = <&kp ENTER>;
-            key-positions = <16 17 18>;
-        };
-
         toggle_game_mode {
             bindings = <&tog 6>;
             key-positions = <20 31>;
@@ -106,16 +96,6 @@ ZMK_HOLD_TAP(mt_end, bindings = <&masked_end>, <&kp>; MT_CORE)
         undo {
             bindings = <&kp LC(Z)>;
             key-positions = <22 21>;
-        };
-
-        copy {
-            bindings = <&kp LC(C)>;
-            key-positions = <22 23>;
-        };
-
-        paste {
-            bindings = <&kp LC(V)>;
-            key-positions = <23 24>;
         };
     };
 
