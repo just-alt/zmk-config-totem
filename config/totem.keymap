@@ -163,7 +163,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
         };
 
         forwardSlash {
-            bindings = <&kp FSLH>;
+            bindings = <&kp KP_SLASH>;
             key-positions = <28 17>;
         };
 
