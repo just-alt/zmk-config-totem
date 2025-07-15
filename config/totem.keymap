@@ -10,15 +10,15 @@
 //
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 
+#include "zmk-helpers/helper.h"
+
+// Source desired key-position labels
+
+#include "zmk-helpers/key-labels/totem.h"
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
-
-#include "zmk-helpers/helper.h"
-
-// Source desired key-position labels
-#include "zmk-helpers/key-labels/totem.h"
 
 #define BASE 0
 #define NAV  1
@@ -192,6 +192,23 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
             bindings = <&kp GREATER_THAN>;
             key-positions = <17 18>;
         };
+
+        toggle_mac_layer {
+            bindings = <&tog 7>;
+            key-positions = <0 30>;
+        };
+
+        mac_copy {
+            bindings = <&kp LG(C)>;
+            key-positions = <22 23>;
+            layers = <7>;
+        };
+
+        mac_paste {
+            bindings = <&kp LG(V)>;
+            key-positions = <23 24>;
+            layers = <7>;
+        };
     };
 
     macros {
@@ -233,9 +250,9 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-           &kp Q        &kp W        &kp E         &kp R         &kp T        &kp Y                        &kp U         &kp I         &kp O            &kp P
-           &hml LGUI A  &hml LALT S  &hml LCTRL D  &hml LSHFT F  &kp G        &kp H                        &hmr RSHFT J  &hmr RCTRL K  &hmr LEFT_ALT L  &hmr LEFT_GUI SEMICOLON
-&kp GRAVE  &kp Z        &kp X        &kp C         &kp V         &kp B        &kp N                        &kp M         &kp COMMA     &kp DOT          &kp FSLH                 &kp SINGLE_QUOTE
+           &kp Q        &kp W        &kp E         &kp R         &kp T        &kp Y                            &kp U         &kp I         &kp O            &kp P
+           &hml LGUI A  &hml LALT S  &hml LCTRL D  &hml LSHFT F  &kp G        &kp H                            &hmr RSHFT J  &hmr RCTRL K  &hmr LEFT_ALT L  &hmr LEFT_GUI SEMICOLON
+&kp GRAVE  &kp Z        &kp X        &kp C         &kp V         &kp B        &kp N                            &kp M         &kp COMMA     &kp DOT          &kp FSLH                 &kp SINGLE_QUOTE
                                      &kp DEL       &lt 1 TAB     &kp ENTER    &hml LG(LC(LS(LEFT_ALT))) SPACE  &lt 2 ESC     &kp BSPC
             >;
         };
@@ -398,10 +415,10 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-           &kp Q        &kp W        &kp E         &kp R         &kp T        &kp Y                        &kp U         &kp I         &kp O            &kp P
-           &hml LCTRL A  &hml LALT S  &hml LGUI D  &hml LSHFT F  &kp G        &kp H                        &hmr RSHFT J  &hmr LEFT_GUI K  &hmr LEFT_ALT L  &hmr RCTRL SEMICOLON
-&kp GRAVE  &kp Z        &kp X        &kp C         &kp V         &kp B        &kp N                        &kp M         &kp COMMA     &kp DOT          &kp FSLH                 &kp SINGLE_QUOTE
-                                     &kp DEL       &lt 1 TAB     &kp ENTER    &hmr LG(LC(LS(LEFT_ALT))) SPACE  &lt 2 ESC     &kp BSPC
+           &kp Q         &kp W        &kp E        &kp R         &kp T        &kp Y                            &kp U         &kp I            &kp O            &kp P
+           &hml LCTRL A  &hml LALT S  &hml LGUI D  &hml LSHFT F  &kp G        &kp H                            &hmr RSHFT J  &hmr LEFT_GUI K  &hmr LEFT_ALT L  &hmr RCTRL SEMICOLON
+&kp GRAVE  &kp Z         &kp X        &kp C        &kp V         &kp B        &kp N                            &kp M         &kp COMMA        &kp DOT          &kp FSLH              &kp SINGLE_QUOTE
+                                      &kp DEL      &lt 1 TAB     &kp ENTER    &hmr LG(LC(LS(LEFT_ALT))) SPACE  &lt 2 ESC     &kp BSPC
             >;
         };
     };
