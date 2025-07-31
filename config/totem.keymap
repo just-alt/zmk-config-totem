@@ -41,7 +41,7 @@
 #define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS)                                 \
   ZMK_HOLD_TAP(NAME, bindings = <HOLD>, <TAP>; flavor = "balanced";            \
                tapping-term-ms = <280>; quick-tap-ms = <QUICK_TAP_MS>;         \
-               require-prior-idle-ms = <75>; hold-trigger-on-release;         \
+               require-prior-idle-ms = <50>; hold-trigger-on-release;         \
                hold-trigger-key-positions = <TRIGGER_POS>;)
 
 MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS) // Left-hand HRMs.
@@ -126,11 +126,13 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
         copy {
             bindings = <&kp LC(INS)>;
             key-positions = <22 23>;
+            layers = <0>;
         };
 
         paste {
             bindings = <&kp LS(INS)>;
             key-positions = <23 24>;
+            layers = <0>;
         };
 
         caret {
