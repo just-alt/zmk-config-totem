@@ -1,0 +1,24 @@
+.idea
+firmware
+
+# Build artifacts
+build/
+artifacts/
+
+# ZMK
+zephyr/
+!zephyr/module.yml
+
+# West managed directories
+.west/
+modules/
+tools/
+optional/
+
+# West projects from config/west.yml
+zmk/
+zmk-dongle-screen/
+
+# Local tools
+AGENTS.md
+.dir-locals.el
