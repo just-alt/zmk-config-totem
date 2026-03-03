@@ -61,7 +61,7 @@ TIMEOUT=10
 ELAPSED=0
 
 while [ $ELAPSED -lt $TIMEOUT ]; do
-  for path in /media/$USER/XIAO-SENSE /media/XIAO-SENSE /run/media/$USER/XIAO-SENSE; do
+  for path in /media/$USER/XIAO-SENSE /media/XIAO-SENSE /run/media/$USER/XIAO-SENSE /Volumes/XIAO-SENSE; do
     if [ -d "$path" ]; then
       MOUNT_POINT="$path"
       break 2
