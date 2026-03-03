@@ -323,6 +323,12 @@ build_target() {
       end_time=$(date +%s)
       local duration=$((end_time - start_time))
       log_success "Build completed in ${duration}s"
+
+      # Display flash message if -f flag was used
+      if [ "${FLASH_MODE:-false}" = "true" ]; then
+        flash $target_name
+      fi
+
       break
     fi
   done < <(parse_build_config)
@@ -564,6 +570,51 @@ build() {
   fi
 }
 
+# Flash the keyboard.
+flash() {
+  local target_name="$1"
+
+  local DEVICE_NAME="$target_name keyboard half"
+
+  local MOUNT_POINT=""
+  local TIMEOUT=30
+  local ELAPSED=0
+  local OUTPUT_DIR="build"
+
+
+  local FIRMWARE=$(find "$OUTPUT_DIR" -name "*$target_name*.uf2" -type f | head -n 1)
+
+  echo "Found: $FIRMWARE"
+  echo ""
+  echo "Waiting for XIAO-SENSE device (${TIMEOUT}s timeout)..."
+  echo "Put the $DEVICE_NAME in bootloader mode (double-tap reset button)"
+
+  while [ $ELAPSED -lt $TIMEOUT ]; do
+    for path in /media/$USER/XIAO-SENSE /media/XIAO-SENSE /run/media/$USER/XIAO-SENSE /Volumes/XIAO-SENSE; do
+      if [ -d "$path" ]; then
+        MOUNT_POINT="$path"
+        break 2
+      fi
+    done
+    sleep 1
+    ELAPSED=$((ELAPSED + 1))
+    echo -n "."
+  done
+  echo ""
+
+  if [ -z "$MOUNT_POINT" ]; then
+    echo "Error: XIAO-SENSE device not found"
+    echo "Please put the $DEVICE_NAME in bootloader mode (double-tap reset button)"
+    exit 1
+  fi
+
+  echo "Found device at: $MOUNT_POINT"
+  echo "Copying firmware to $DEVICE_NAME..."
+
+  cp "$FIRMWARE" "$MOUNT_POINT/"
+  sync
+}
+
 # List all available build targets from YAML
 list_targets() {
   log_info "Available build targets from $BUILD_CONFIG:"
@@ -709,6 +760,10 @@ The script allows you to build ZMK firmware targets defined in a YAML configurat
 
 Usage: $0 [flags] <command>
 
+Flags:
+  -f, --flash      Display flash reminder after successful build
+  -i, --incremental Enable incremental builds (skip pristine flag)
+
 Commands:
   init             Initialize the repository (west init + update)
   update           Update the repository (west update)
@@ -735,9 +790,11 @@ Environment Variables:
 Examples:
   $0 build                                      # Build all firmware from build.yaml
   $0 build ${KEYBOARD}_peripheral_left          # Build specific target
+  $0 -f build ${KEYBOARD}_peripheral_left       # Build with flash reminder
   $0 list                                       # List all available targets
   $0 build_dongle                               # Build central dongle
   $0 build_left                                 # Build peripheral left
+  $0 -f build_left                              # Build peripheral left with flash reminder
   $0 build_central_left                         # Build central left (no dongle)
   $0 clean                                      # Clean build artifacts
   $0 clean ${KEYBOARD}_peripheral_left          # Clean specific target
@@ -746,7 +803,7 @@ Examples:
   $0 copy                            # Copy artifacts to ./artifacts
   $0 copy /path/to/dir               # Copy artifacts to custom directory
   KEYBOARD=name $0 build             # Set the keyboard name manually
-  INCREMENTAL=true $0 build_left     # Faster incremental build
+  $0 -i build_left                   # Faster incremental build
   BUILD_CONFIG=custom.yaml $0 build  # Use custom build config
   RUNTIME=docker $0 build            # Use docker instead of podman
 
@@ -763,11 +820,16 @@ fi
 
 # Parse flags
 INCREMENTAL_FLAG=""
+FLASH_FLAG=""
 ARGS=()
 while [[ $# -gt 0 ]]; do
   case $1 in
   -i | --incremental)
     INCREMENTAL_FLAG="true"
+    shift
+    ;;
+  -f | --flash)
+    FLASH_FLAG="true"
     shift
     ;;
   *)
@@ -780,6 +842,11 @@ done
 # Set incremental mode if flag was provided
 if [ -n "$INCREMENTAL_FLAG" ]; then
   INCREMENTAL="true"
+fi
+
+# Set flash mode if flag was provided
+if [ -n "$FLASH_FLAG" ]; then
+  FLASH_MODE="true"
 fi
 
 # Restore positional parameters
