@@ -17,8 +17,5 @@ optional/
 
 # West projects from config/west.yml
 zmk/
-zmk-dongle-screen/
-
-# Local tools
-AGENTS.md
-.dir-locals.el
+zmk-helpers/
+zmk-unicode/

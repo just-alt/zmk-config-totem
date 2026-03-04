@@ -29,9 +29,13 @@
 #define TVP1 4
 #define TVP2 5
 #define BASE_MAC 6
+#define MOUSE 7
+#define GAMING 8
 #define XXX &none
 #define ___ &trans
 #define QUICK_TAP_MS 175
+
+#include "mouse.dtsi"
 
 /* Timeless homerow mods */
 // https://github.com/urob/zmk-config/tree/main#timeless-homerow-mods
@@ -65,11 +69,11 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
 
         combo_tvp {
             key-positions = <12 13 11>;
-            bindings = <&tog 5>;
+            bindings = <&tog TVP1>;
         };
 
         toggle_game_mode {
-            bindings = <&tog 7>;
+            bindings = <&tog GAMING>;
             key-positions = <20 31>;
             timeout-ms = <100>;
         };
@@ -203,7 +207,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
         };
 
         toggle_mac_layer {
-            bindings = <&tog 1>;
+            bindings = <&tog NAV>;
             key-positions = <0 30>;
         };
 
@@ -262,7 +266,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
            &kp Q        &kp W        &kp E         &kp R         &kp T        &kp Y                            &kp U         &kp I         &kp O            &kp P
            &hml LGUI A  &hml LALT S  &hml LCTRL D  &hml LSHFT F  &kp G        &kp H                            &hmr RSHFT J  &hmr RCTRL K  &hmr LEFT_ALT L  &hmr LEFT_GUI SEMICOLON
 &kp GRAVE  &kp Z        &kp X        &kp C         &kp V         &kp B        &kp N                            &kp M         &kp COMMA     &kp DOT          &kp FSLH                 &kp SINGLE_QUOTE
-                                     &kp DEL       &lt 2 TAB     &kp ENTER    &hmr LG(LC(LS(LEFT_ALT))) SPACE  &lt 3 ESC     &kp BSPC
+                                     &kp DEL       &lt SYM TAB     &lt MOUSE ENTER    &hmr LG(LC(LS(LEFT_ALT))) SPACE  &lt ADJ ESC     &kp BSPC
             >;
         };
 
@@ -286,7 +290,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
            &kp Q         &kp W        &kp E        &kp R         &kp T        &kp Y                            &kp U         &kp I            &kp O            &kp P
            &hml LCTRL A  &hml LALT S  &hml LGUI D  &hml LSHFT F  &kp G        &kp H                            &hmr RSHFT J  &hmr LEFT_GUI K  &hmr LEFT_ALT L  &hmr RCTRL SEMICOLON
 &kp GRAVE  &kp Z         &kp X        &kp C        &kp V         &kp B        &kp N                            &kp M         &kp COMMA        &kp DOT          &kp FSLH              &kp SINGLE_QUOTE
-                                      &kp DEL      &lt 2 TAB     &kp ENTER    &hmr LG(LC(LS(LEFT_ALT))) SPACE  &lt 3 ESC     &kp BSPC
+                                      &kp DEL      &lt SYM TAB     &lt MOUSE ENTER    &hmr LG(LC(LS(LEFT_ALT))) SPACE  &lt ADJ ESC     &kp BSPC
             >;
         };
 
@@ -380,7 +384,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
 
             bindings = <
         &bt BT_CLR  &trans     &trans     &trans     &bt BT_SEL 0    &uc 0x1F596 0  &none  &none  &none  &none
-        &lt 6 L     &trans     &trans     &trans     &bt BT_SEL 1    &none  &none  &none  &none  &none
+        &lt TVP2 L     &trans     &trans     &trans     &bt BT_SEL 1    &none  &none  &none  &none  &none
 &trans  &kp LSHFT   &kp LC(C)  &kp LC(X)  &kp LC(V)  &bt BT_SEL 2    &none  &none  &none  &none  &none  &none
                                &trans     &trans     &trans          &none  &none  &none
             >;
@@ -409,6 +413,33 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
                                    &trans        &kp LC(F12)    &kp LC(F11)    &trans  &trans  &trans
             >;
         };
+				mouse {
+						// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+
+						label = "MOUSE";
+
+						// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+						//             ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓   ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓
+						//                   Q           W           E           R           T               Y           U           I           O           P
+						//             ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫
+						//                   A           S           D           F           G               H           J           K           L           ;
+						// ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
+						//       `           Z           X           C           V           B               N           M           ,           .           /           '
+						// ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
+						//                                          DEL         TAB         SPC            ENTER                   BSPC
+						//                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
+						bindings = <
+						//             ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓   ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓
+						                    XXX         XXX         XXX         XXX         XXX             XXX      &kp PG_UP    U_MS_U     &kp PG_DN      XXX
+						//             ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫
+						                    XXX         XXX         XXX         XXX         XXX           U_WH_L      U_MS_L      U_MS_D      U_MS_R      U_WH_R
+						// ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
+						        XXX         XXX         XXX         XXX         XXX         XXX             XXX      &mkp LCLK   &mkp MCLK   &mkp RCLK      XXX         XXX
+						// ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
+						                                            XXX         XXX         XXX           U_WH_U      U_WH_D      XXX
+						//                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
+						>;
+				};
 
         game {
             bindings = <
