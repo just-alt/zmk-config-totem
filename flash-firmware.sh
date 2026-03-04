@@ -12,7 +12,7 @@
 
 set -e
 
-OUTPUT_DIR="firmware"
+OUTPUT_DIR="build"
 TARGET="${1:-dongle}"
 
 # Determine firmware file to flash
@@ -82,7 +82,7 @@ fi
 echo "Found device at: $MOUNT_POINT"
 echo "Copying firmware to $DEVICE_NAME..."
 
-cp "$FIRMWARE" "$MOUNT_POINT/"
+cp "$FIRMWARE" "$MOUNT_POINT/" 2>/dev/null || true
 sync
 
 echo ""

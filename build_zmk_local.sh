@@ -611,7 +611,7 @@ flash() {
   echo "Found device at: $MOUNT_POINT"
   echo "Copying firmware to $DEVICE_NAME..."
 
-  cp "$FIRMWARE" "$MOUNT_POINT/"
+  cp "$FIRMWARE" "$MOUNT_POINT/" 2>/dev/null || true
   sync
 }
 
